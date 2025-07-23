@@ -1,0 +1,30 @@
+services:
+
+  django:
+    build: ./backend
+    container_name: django_app
+    volumes:
+      - ./backend:/app
+      - ./backend/media:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - node
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+
+  node:
+    build:
+      context: ./whatsapp_node
+    container_name: node_whatsapp
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./whatsapp_node:/app
+      - /app/node_modules
+      - ./backend/media:/app/media
+    restart: unless-stopped

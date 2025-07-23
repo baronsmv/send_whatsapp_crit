@@ -1,0 +1,67 @@
+# Bytecode de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de entorno
+.env
+*.env
+
+# Virtualenvs (si está dentro del proyecto)
+venv/
+ENV/
+env/
+.venv/
+
+# Archivos de configuración de VSCode, PyCharm, etc.
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Archivos de logs y bases de datos locales
+*.log
+*.sqlite3
+db.sqlite3
+
+# Archivos de compilación de Python
+build/
+dist/
+*.egg-info/
+
+# Archivos estáticos generados por Django
+backend/staticfiles/
+
+# Archivos de medios cargados por el usuario
+backend/media/
+
+# Archivos temporales
+*.bak
+*.swp
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Archivos de testing
+.coverage
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.cache/
+
+# Archivos de despliegue opcionales
+*.pem
+*.crt
+*.key
+
+# Docker y herramientas CI/CD (opcional)
+docker-compose.override.yml
+*.local.yml
+.env.*
+
+# Sesión de WhatsApp
+whatsapp_node
+!whatsapp_node/Dockerfile
+!whatsapp_node/index.js
+!whatsapp_node/package.json

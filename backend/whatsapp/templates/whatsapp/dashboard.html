@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="es">
+        <head>
+        <meta charset="UTF-8">
+        <title>Envío en Bloque</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Envío Masivo por WhatsApp</h1>
+
+<button id="start-btn">Iniciar envío</button>
+<p id="status">Estado: <span id="estado">esperando</span></p>
+
+<h2>Enviados</h2>
+<ul id="enviados-list"></ul>
+
+<h2>Errores</h2>
+<ul id="errores-list"></ul>
+
+<script>
+    $("#start-btn").click(function () {
+        $("#estado").text("enviando...");
+        $.post("/ajax/send/", { delay: 5 });
+    });
+
+    function updateStatus() {
+        $.get("/ajax/status/", function (data) {
+            $("#estado").text(data.estado);
+            $("#enviados-list").empty();
+            $("#errores-list").empty();
+
+            data.enviados.forEach(item => {
+                $("#enviados-list").append(`<li>${item.numero}</li>`);
+            });
+
+            data.errores.forEach(item => {
+                $("#errores-list").append(`<li>${item.numero}: ${item.error}</li>`);
+            });
+        });
+    }
+
+    setInterval(updateStatus, 3000);
+</script>
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>
