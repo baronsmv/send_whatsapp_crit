@@ -1,7 +1,21 @@
 $(document).ready(function () {
+
     $("#start-btn").click(function () {
         $("#estado").text(sendingStatus);
         $.post("/ajax/send/", {delay: 5});
+    });
+
+    $("#reset-btn").click(function () {
+        if (confirm("¿Estás seguro que deseas reiniciar los mensajes?")) {
+            $("#estado").text("♻️ Reiniciando...");
+            $.post("/ajax/reset/", {}, function () {
+                alert("✅ Mensajes reiniciados.");
+                updateStatus();
+            }).fail(function () {
+                alert("❌ Error al reiniciar.");
+                $("#estado").text("⚠️ Error");
+            });
+        }
     });
 
     function updateStatus() {

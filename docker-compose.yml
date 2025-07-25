@@ -11,7 +11,9 @@ services:
     depends_on:
       - node
     command: >
-      sh -c "python manage.py migrate &&
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py init_messages &&
              python manage.py runserver 0.0.0.0:8000"
     environment:
       - PYTHONDONTWRITEBYTECODE=1
