@@ -1,3 +1,8 @@
 excel:
   nombre_archivo: excel.xlsx
   nombre_hoja: Hoja 1
+
+whatsapp:
+  saludo: "Hola, "  # Seguido del nombre registrado
+  final_saludo: ". "
+  texto: "Te envío una imagen."

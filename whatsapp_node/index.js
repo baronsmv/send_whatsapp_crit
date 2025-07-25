@@ -36,20 +36,41 @@ function fileExists(filePath) {
 // === (Opcional) Apertura forzada de chat usando Puppeteer ===
 
 async function forceOpenChat(client, number) {
-    const pupPage = client.pupPage || client._client?.pupPage;
-    if (!pupPage) throw new Error("No se pudo acceder a Puppeteer");
+    try {
+        const pupPage = client.pupPage || client._client?.pupPage;
+        if (!pupPage) {
+            console.warn('⚠️ No se pudo acceder a Puppeteer para forzar apertura de chat.');
+            return false;
+        }
 
-    const cleanNumber = number.replace('@c.us', '');
-    console.log(`🟡 Forzando apertura de chat con ${cleanNumber}...`);
+        const cleanNumber = number.replace('@c.us', '');
+        console.log(`🟡 Forzando apertura de chat con ${cleanNumber}...`);
 
-    await pupPage.evaluate((num) => {
-        window.location.href = `https://wa.me/${num}`;
-    }, cleanNumber);
+        await pupPage.goto(`https://wa.me/${cleanNumber}`, {waitUntil: 'domcontentloaded', timeout: 15000});
 
-    await pupPage.waitForSelector('div[contenteditable="true"]', {timeout: 15000});
-    await pupPage.type('div[contenteditable="true"]', '.', {delay: 50});
-    await pupPage.keyboard.press('Enter');
-    await new Promise((r) => setTimeout(r, 2000));
+        await pupPage.waitForSelector('a[href*="web.whatsapp.com"]', {timeout: 10000});
+        await pupPage.click('a[href*="web.whatsapp.com"]');
+
+        await pupPage.waitForNavigation({waitUntil: 'networkidle2', timeout: 15000});
+
+        // Espera el input para escribir mensaje
+        await pupPage.waitForSelector('div[contenteditable="true"]', {timeout: 15000});
+
+        // Escribe y envía un mensaje trivial para abrir la sesión
+        await pupPage.type('div[contenteditable="true"]', '.', {delay: 50});
+        await pupPage.keyboard.press('Enter');
+
+        // Espera un poco para que todo quede estable
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        console.log(`✅ Chat forzado abierto para ${cleanNumber}.`);
+        return true;
+
+    } catch (error) {
+        console.error(`❌ Error forzando apertura de chat con ${number}:`, error.message || error);
+        // NO lanzar error para que el proceso principal no muera
+        return false;
+    }
 }
 
 // === Lógica de envío de medios ===
@@ -76,8 +97,22 @@ function createSendMediaHandler(client) {
             } catch {
                 console.log(`⚠️ Chat no encontrado para ${number}`);
 
-                // 👇 Descomenta esta línea para forzar apertura de chat automáticamente (NO recomendado)
-                // await forceOpenChat(client, number);
+                // Forzar apertura de chat automáticamente (Riesgoso)
+                try {
+                    let chat = await client.getChatById(number);
+                    if (!chat) {
+                        console.warn(`⚠️ Chat no encontrado para ${number}`);
+                        const opened = await forceOpenChat(client, number);
+                        if (!opened) {
+                            throw new Error('No se pudo abrir chat forzado');
+                        }
+                        chat = await client.getChatById(number);
+                    }
+                    await client.sendMessage(chat.id._serialized, media, {caption: message});
+                    console.log(`✅ Mensaje enviado a ${number}`);
+                } catch (error) {
+                    console.error(`❌ Error enviando a ${number}:`, error.message || error);
+                }
 
                 chat = await client.getChatById(chatId);
             }

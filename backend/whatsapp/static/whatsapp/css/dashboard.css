@@ -1,0 +1,84 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    color: #25D366;
+}
+
+button#start-btn {
+    background-color: #25D366;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button#start-btn:hover {
+    background-color: #1da851;
+}
+
+#status {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.result-section {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.result-section h2 {
+    color: #444;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 5px 10px;
+    background-color: #eef1f3;
+    margin: 5px 0;
+    border-radius: 4px;
+}
+
+.toggle-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.toggle-list {
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    max-height: 1000px; /* lo suficientemente grande */
+}
+
+.toggle-list.collapsed {
+    max-height: 0;
+    padding: 0;
+}

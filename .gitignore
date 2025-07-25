@@ -33,7 +33,7 @@ dist/
 backend/staticfiles/
 
 # Archivos de medios cargados por el usuario
-backend/media/
+*/media/
 
 # Archivos temporales
 *.bak

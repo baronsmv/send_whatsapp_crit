@@ -1,50 +1,61 @@
-import os
-import sys
 import time
+from typing import List, Dict
 
-import django
 import requests
 from django.http import JsonResponse
-from django.views.generic import TemplateView
+from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-# Configurar entorno Django
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE_DIR)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "qrscan.settings")
-django.setup()
-
+# Módulos del backend
+from utils.config import wa_greeting, wa_end_greeting, wa_text  # type: ignore
+from utils.excel import contactos  # type: ignore
 from utils.logger import get_logger  # type: ignore
 from whatsapp.progress_tracker import progress  # type: ignore
-from utils.excel import contactos  # type: ignore
 
 logger = get_logger("backend_views")
 
+progress["por_enviar"] = [{"numero": numero} for _, numero, _ in contactos]
 
-class BulkSendDashboardView(TemplateView):
-    template_name = "whatsapp/dashboard.html"
+
+def BulkSendDashboardView(request):
+    return render(
+        request,
+        "whatsapp/dashboard.html",
+        {
+            "title": "Envío Masivo por WhatsApp",
+            "header": "📤 Envío Masivo por WhatsApp",
+            "start_button": "▶ Iniciar envío",
+            "initial_status": "🕒 Iniciando...",
+            "sending_status": "⏳ Enviando...",
+            "to_send_title": "💬 Por enviar",
+            "success_title": "✅ Enviados",
+            "error_title": "❌ Errores",
+        },
+    )
 
 
 class BulkSendAjaxView(APIView):
     def post(self, request):
-        delay = int(request.data.get("delay", 5))
+        delay: int = int(request.data.get("delay", 5))
 
-        progress["estado"] = "enviando"
-        progress["enviados"] = []
-        progress["errores"] = []
+        progress["estado"]: str = "enviando"
+        progress["enviados"]: List = []
+        progress["errores"]: List = []
 
         for nombre, numero, imagen in contactos:
-            mensaje = f"Hola {nombre}, te envío una imagen."
+            mensaje: str = f"{wa_greeting}{nombre}{wa_end_greeting}{wa_text}"
 
-            payload = {
+            payload: Dict[str, str] = {
                 "number": f"521{numero}@c.us",
                 "message": mensaje,
                 "image_path": f"media/{imagen}",
             }
 
             try:
-                res = requests.post("http://node:3000/send-media", json=payload)
+                res: Response = requests.post(
+                    "http://node:3000/send-media", json=payload
+                )
+                progress["por_enviar"].remove({"numero": numero})
                 if res.status_code == 200:
                     logger.info(f"✅ Enviado: {numero}")
                     progress["enviados"].append({"numero": numero, "estado": "ok"})

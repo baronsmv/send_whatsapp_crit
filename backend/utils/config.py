@@ -24,6 +24,11 @@ default_config: Dict = {
         "nombre_archivo": "excel.xlsx",
         "nombre_hoja": "Hoja 1",
     },
+    "whatsapp": {
+        "saludo": "Hola ",  # Seguido del nombre registrado
+        "final_saludo": ". ",
+        "texto": "Te envío una imagen.",
+    },
 }
 
 # Si no existe el archivo, crear uno con valores por defecto
@@ -39,10 +44,19 @@ else:
     with open(CONFIG_FILE, "r", encoding="utf-8") as f:
         config = safe_load(f) or {}
 
-# Extracción de configuración
+# Extracción de configuraciones
 excel_cfg: Dict = config.get("excel", {})
+whatsapp_cfg: Dict = config.get("whatsapp", {})
 
+# Configuración específica de Excel
 excel_path: str = resource_path(
     excel_cfg.get("nombre_archivo", default_config["excel"]["nombre_archivo"])
 )
 sheet_name: str = excel_cfg.get("nombre_hoja", default_config["excel"]["nombre_hoja"])
+
+# Configuración específica de los mensajes de WhatsApp
+wa_greeting: str = excel_cfg.get("saludo", default_config["whatsapp"]["saludo"])
+wa_end_greeting: str = excel_cfg.get(
+    "final_saludo", default_config["whatsapp"]["final_saludo"]
+)
+wa_text: str = excel_cfg.get("text", default_config["whatsapp"]["texto"])
