@@ -35,7 +35,7 @@ button#start-btn:hover {
     background-color: #1da851;
 }
 
-button#reset-btn {
+button#reset-data-btn {
     background-color: #ffbd2e;
     color: white;
     border: none;
@@ -47,8 +47,24 @@ button#reset-btn {
     margin-left: 10px;
 }
 
-button#reset-btn:hover {
+button#reset-data-btn:hover {
     background-color: #e6a818;
+}
+
+button#reset-session-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-left: 10px;
+}
+
+button#reset-session-btn:hover {
+    background-color: #d32f2f;
 }
 
 #status {
@@ -91,10 +107,38 @@ ul li {
 .toggle-list {
     transition: max-height 0.3s ease;
     overflow: hidden;
-    max-height: 1000px; /* lo suficientemente grande */
+    max-height: 1000px;
 }
 
 .toggle-list.collapsed {
     max-height: 0;
     padding: 0;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
 }

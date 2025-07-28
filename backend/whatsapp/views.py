@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.utils.timezone import now
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 # Módulos del backend
 from utils.config import wa_greeting, wa_end_greeting, wa_text  # type: ignore
 from utils.excel import contactos  # type: ignore
@@ -24,7 +25,8 @@ def BulkSendDashboardView(request):
             "title": "Envío Masivo por WhatsApp",
             "header": "📤 Envío Masivo por WhatsApp",
             "start_button": "▶ Iniciar envío",
-            "reset_button": "🔄 Reiniciar",
+            "reset_data_button": "🔄 Reiniciar",
+            "reset_session_button": "🔄 Reiniciar sesión",
             "initial_status": "🕒 Iniciando...",
             "sending_status": "⏳ Enviando...",
             "to_send_title": "💬 Por enviar",

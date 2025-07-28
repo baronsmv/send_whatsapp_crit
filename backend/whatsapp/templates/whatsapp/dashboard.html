@@ -11,8 +11,17 @@
 <div class="container">
     <h1>{{ header }}</h1>
 
+    <div class="modal" id="qr-modal">
+        <div class="modal-content">
+            <h2>📱 Escanea el código QR</h2>
+            <img alt="Código QR para iniciar sesión" id="qr-image" src="">
+            <p id="qr-instruction">Abre WhatsApp en tu teléfono y escanea el código.</p>
+        </div>
+    </div>
+
     <button id="start-btn">{{ start_button }}</button>
-    <button id="reset-btn">{{ reset_button }}</button>
+    <button id="reset-data-btn">{{ reset_data_button }}</button>
+    <button id="reset-session-btn">{{ reset_session_button }}</button>
     <p id="status">Estado: <span id="estado">{{ initial_status }}</span></p>
 
     <div class="result-section">
