@@ -25,13 +25,16 @@ def BulkSendDashboardView(request):
             "title": "Envío Masivo por WhatsApp",
             "header": "📤 Envío Masivo por WhatsApp",
             "start_button": "▶ Iniciar envío",
-            "reset_data_button": "🔄 Reiniciar",
-            "reset_session_button": "🔄 Reiniciar sesión",
+            "reset_data_button": "⟳ Reiniciar tabla",
+            "reset_session_button": "✖ Cerrar sesión",
+            "pre_status": "Estado: ",
             "initial_status": "🕒 Iniciando...",
             "sending_status": "⏳ Enviando...",
             "to_send_title": "💬 Por enviar",
             "success_title": "✅ Enviados",
             "error_title": "❌ Errores",
+            "qr_title": "📱 Escanea el código QR",
+            "qr_instruction": "Abre WhatsApp en tu teléfono y escanea el código.",
         },
     )
 

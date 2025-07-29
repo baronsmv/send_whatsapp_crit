@@ -13,16 +13,16 @@
 
     <div class="modal" id="qr-modal">
         <div class="modal-content">
-            <h2>📱 Escanea el código QR</h2>
+            <h2>{{ qr_title }}</h2>
             <img alt="Código QR para iniciar sesión" id="qr-image" src="">
-            <p id="qr-instruction">Abre WhatsApp en tu teléfono y escanea el código.</p>
+            <p id="qr-instruction">{{ qr_instruction }}</p>
         </div>
     </div>
 
     <button id="start-btn">{{ start_button }}</button>
     <button id="reset-data-btn">{{ reset_data_button }}</button>
     <button id="reset-session-btn">{{ reset_session_button }}</button>
-    <p id="status">Estado: <span id="estado">{{ initial_status }}</span></p>
+    <p id="status">{{ pre_status }}<span id="estado">{{ initial_status }}</span></p>
 
     <div class="result-section">
         <h2 class="toggle-header">{{ to_send_title }}<span class="toggle-icon">🔽</span></h2>

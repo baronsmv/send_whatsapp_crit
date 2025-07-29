@@ -6,3 +6,5 @@ whatsapp:
   saludo: "Hola, "  # Seguido del nombre registrado
   final_saludo: ". "
   texto: "Te envío una imagen."
+
+interfaz:
